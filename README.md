@@ -5,7 +5,7 @@
 ## Getting Started
 
 ### 1. Clone the repo
-### git@github.com:sagachi/Valid-Email-Address-Microservice.git
+### git clone git@github.com:sagachi/Valid-Email-Address-Microservice.git
 ### 2. Install NPM packages
 ### npm install
 ### 3. Start the server from the root directory
