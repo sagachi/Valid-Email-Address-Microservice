@@ -1,39 +1,59 @@
-Communication Contract:
-1. Primary communication will be done through discord.                       
-2. A response from every team member is expected within 24 hours.
-3. Backup plan will go into effect if a team member is unresponsive for over 72 hours.
-4. Group assignments should be discussed and planned at least 4–5 days before the due   date, with the goal of completing them 1–2 days early.
-5. Everyone agrees to remain respectful of each other's opinions and be open to hearing all ideas/feedback and ultimately resolve any disagreements with majority vote.
+# CS361 Valid Email Address Microservice
 
-A. To request data from the microservice, other programs can send an HTTP POST request to the endpoint /api/validate-email. The request must include a JSON object with a single parameter (email).
+### This microservice validates a given email address and returns a JSON object with the results.
 
-Example call using Node.js:
-const response = await fetch("http://localhost:3000/api/validate-email", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ email: "test@example.com" })
+## Getting Started
+
+### 1. Clone the repo
+### git@github.com:sagachi/Valid-Email-Address-Microservice.git
+### 2. Install NPM packages
+### npm install
+### 3. Start the server from the root directory
+### node server.mjs
+
+## How to request an email validation
+### The client can make HTTP calls to the appropriate route to validate an email address. 
+### The microservice checks the email format, the domain (MX records), and optionally the SMTP mailbox depending on the request parameters.
+
+### Base URL: http://localhost:3000
+### Endpoint path: /api/v1/validate/email
+### This microservice uses POST and expects the following fields in the request body: email(required), checkDomain (optional and default: true), checkSMTP (optional and default: false).
+
+### Example URL: http://localhost:3000/api/v1/validate/email
+
+### Example of a GET request using fetch:
+### const BASE_URL = "http://localhost:3000/api/v1/validate/email";
+
+fetch(BASE_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+        email: "test@gmail.com",
+        checkDomain: true,
+        checkSMTP: false
+    })
+})
+.then(response => response.json())
+.then(data => {
+    console.log(data);
+})
+.catch(error => {
+    console.error(error);
 });
-const data = await response.json();
-console.log(data);
 
-Example call using curl:
-curl -X POST http://localhost:3000/api/validate-email \
--H "Content-Type: application/json" \
--d "{\"email\": \"test@example.com\"}"
+## How to receive email validation data
+### The server sends back a JSON object with the results.
 
-B. To receive data from the microservice, the microservice will respond with a JSON object containing the validation result. The response will include whether the email format is valid, whether it exists, and any other relevant messages. Other programs can receive this data by parsing the JSON response.
-
-Example call using Node.js:
-const result = await fetch("http://localhost:3000/api/validate-email", {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify({ email: "hello@gmail.com" })
-});
-const output = await result.json();
-if (output.valid) {
-  console.log("Email is valid and exists:", output.message);
-} else {
-  console.log("Email is invalid:", output.reason || output.message);
+### Example response:
+### {
+    "valid": true,
+    "reason": "Email exists and domain is valid",
+    "details": {
+        "format": true,
+        "domain": true,
+        "smtp": false
+    }
 }
+
 
 
