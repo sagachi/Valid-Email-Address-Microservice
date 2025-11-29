@@ -22,7 +22,8 @@
 ### Example URL: http://localhost:3000/api/v1/validate/email
 
 ### Example of a GET request using fetch:
-### const BASE_URL = "http://localhost:3000/api/v1/validate/email";
+### {
+const BASE_URL = "http://localhost:3000/api/v1/validate/email";
 
 fetch(BASE_URL, {
     method: "POST",
@@ -40,6 +41,8 @@ fetch(BASE_URL, {
 .catch(error => {
     console.error(error);
 });
+
+}
 
 ## How to receive email validation data
 ### The server sends back a JSON object with the results.
